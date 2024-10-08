@@ -8,4 +8,9 @@ const awsconfig = {
     }
 };
 
+console.log("Identity Pool ID:", awsconfig.Auth.identityPoolId);
+console.log("User Pool ID:", awsconfig.Auth.userPoolId);
+console.log("User Pool Client ID:", awsconfig.Auth.userPoolWebClientId);
+console.log("Region:", awsconfig.Auth.region);
+
 export default awsconfig;
