@@ -1,0 +1,21 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci            # Install dependencies
+    build:
+      commands:
+        - echo "REACT_APP_IDENTITY_POOL_ID=$IDENTITY_POOL_ID" >> .env 
+        - echo "REACT_APP_USER_POOL_ID=$USER_POOL_ID" >> .env
+        - echo "REACT_APP_USER_POOL_CLIENT_ID=$USER_POOL_CLIENT_ID" >> .env
+        - echo "REACT_APP_REGION=$REGION" >> .env 
+        - cat .env
+        - npm run build         # Build your project
+  artifacts:
+    baseDirectory: build       # Adjust based on your build output directory
+    files:
+      - '**/*'                  # Include all files in the base directory
+  cache:
+    paths:
+      - node_modules/**         # Cache node_modules to speed up subsequent builds
