@@ -7,7 +7,7 @@ const Devices = () => {
 
     useEffect(() => {
         // Fetch all devices
-        fetch('https://cn6ymcsbk8.execute-api.us-east-1.amazonaws.com/prod/devices') // Replace with domain API endpoint
+        fetch('https://0l00c3m5f1.execute-api.us-east-1.amazonaws.com/prod/devices') // Replace with domain API endpoint
             .then(response => response.json())
             .then(data => setDevices(data))
             .catch(error => console.error('Error fetching devices:', error));
