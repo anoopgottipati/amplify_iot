@@ -7,7 +7,7 @@ const Devices = () => {
 
     useEffect(() => {
         // Fetch all devices
-        fetch('https://y300xh4dwi.execute-api.us-east-1.amazonaws.com/prod/device', {
+        fetch('https://hsxw7ss5u6.execute-api.us-east-1.amazonaws.com/prod/device', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
