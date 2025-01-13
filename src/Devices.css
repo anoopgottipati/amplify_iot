@@ -1,0 +1,50 @@
+/* Devices.css */
+.devices-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.devices-heading {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.devices-list {
+    list-style: none;
+    padding: 0;
+}
+
+.devices-item {
+    margin-bottom: 1rem;
+}
+
+.devices-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3b82f6;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.devices-button:hover {
+    background-color: #2563eb;
+}
+
+.loading-message {
+    font-size: 1.2rem;
+    color: #4a5568;
+    text-align: center;
+    margin-top: 2rem;
+}

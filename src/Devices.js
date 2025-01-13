@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Devices.css'
 
 const Devices = () => {
     const [devices, setDevices] = useState([]);
@@ -26,6 +27,7 @@ const Devices = () => {
         return <p>Loading devices...</p>;
     }
 
+/*
     return (
         <div>
             <h1>Devices</h1>
@@ -33,6 +35,25 @@ const Devices = () => {
                 {devices.map(device => (
                     <li key={device.id}>
                         <button onClick={() => goToDeviceDetails(device.id)}>
+                            {device.deviceName}
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+*/
+
+    return (
+        <div className="devices-container">
+            <h1 className="devices-heading">Devices</h1>
+            <ul className="devices-list">
+                {devices.map(device => (
+                    <li key={device.id} className="devices-item">
+                        <button
+                            className="devices-button"
+                            onClick={() => goToDeviceDetails(device.id)}
+                        >
                             {device.deviceName}
                         </button>
                     </li>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import './DeviceDetails.css'
 
 const DeviceDetails = () => {
     const { id } = useParams(); // Get device ID from the URL
@@ -17,6 +18,7 @@ const DeviceDetails = () => {
         return <p>Loading device details...</p>;
     }
 
+/*
     return (
         <div>
             <h1>Device Details</h1>
@@ -28,6 +30,32 @@ const DeviceDetails = () => {
             <p><strong>Light Status:</strong> {device.lightStatus}</p>
         </div>
     );
+*/
+
+    return (
+        <div className="device-details-container">
+            <h1 className="device-details-heading">Device Details</h1>
+            <p className="device-details-info">
+                <strong>Device Name:</strong> {device.deviceName}
+            </p>
+            <p className="device-details-info">
+                <strong>Location:</strong> {device.location}
+            </p>
+            <p className="device-details-info">
+                <strong>Device Type:</strong> {device.deviceType}
+            </p>
+            <p className="device-details-info">
+                <strong>Room Temperature:</strong> {device.roomTemperature}°C
+            </p>
+            <p className="device-details-info">
+                <strong>Humidity:</strong> {device.humidity}%
+            </p>
+            <p className="device-details-info">
+                <strong>Light Status:</strong> {device.lightStatus}
+            </p>
+        </div>
+    );
+
 };
 
 export default DeviceDetails;

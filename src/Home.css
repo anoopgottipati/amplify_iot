@@ -1,0 +1,51 @@
+/* Home.css */
+.home-container {
+    min-height: 100vh;
+    background: #ffffff; /* White background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #2d3748; /* Dark text color for better contrast on white */
+    text-align: center;
+    padding: 20px;
+}
+
+.home-heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #1e40af; /* Dark blue for heading */
+}
+
+.home-text {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: #4a5568; /* Gray for text */
+}
+
+.home-button {
+    background-color: #ef4444;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 0.5rem;
+    border: none;
+    outline: none;
+}
+
+.home-button:hover {
+    background-color: #dc2626;
+}
+
+.home-button-green {
+    background-color: #10b981;
+}
+
+.home-button-green:hover {
+    background-color: #059669;
+}
