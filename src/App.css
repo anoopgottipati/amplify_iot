@@ -1,17 +1,14 @@
 .App {
   text-align: center;
+  font-family: 'Arial', sans-serif;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+  animation: App-logo-spin infinite 20s linear;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
   background-color: #282c34;
@@ -22,11 +19,19 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: 20px;
 }
 
 .App-link {
   color: #61dafb;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
+
+.App-link:hover {
+  color: #21a1f1;
+}
+
 
 @keyframes App-logo-spin {
   from {
@@ -34,5 +39,26 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .App-logo {
+    height: 30vmin;
+  }
+
+  .App-header {
+    font-size: calc(10px + 1.5vmin);
+  }
+}
+
+@media (max-width: 480px) {
+  .App-logo {
+    height: 20vmin;
+  }
+
+  .App-header {
+    font-size: calc(10px + 1vmin);
   }
 }
