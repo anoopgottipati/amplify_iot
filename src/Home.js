@@ -12,6 +12,10 @@ const Home = ({ signOut, user }) => {
         navigate('/devices');
     };
 
+    const goToAdmin = () => {
+        navigate('/admin');
+    };
+
 
 
     return (
@@ -20,6 +24,7 @@ const Home = ({ signOut, user }) => {
                 <h1>Hello, {emailUsername}</h1>
                 <button className="home-button" onClick={signOut}>Sign out</button>
                 <button className="home-button home-button-green" onClick={goToDevices}>Show Devices</button>
+                <button className="home-button home-button-blue" onClick={goToAdmin}>Admin Page</button>
             </div>
         </div>
     );

@@ -49,3 +49,12 @@
 .home-button-green:hover {
     background-color: #059669;
 }
+
+.home-button-blue {
+    background-color: #007bff;
+    color: white;
+}
+
+.home-button-blue:hover {
+    background-color: #0056b3;
+}
