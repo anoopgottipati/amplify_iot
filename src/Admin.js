@@ -39,9 +39,6 @@ const Admin = () => {
         try {
             const response = await fetch('https://api.iotlink.click/device', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
                 body: JSON.stringify({ 
                     id: deviceId,
                     deviceName,

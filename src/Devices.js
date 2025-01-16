@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Devices.css'
+import './Devices.css';
 
 const Devices = () => {
     const [devices, setDevices] = useState([]);
     const navigate = useNavigate();
+    const userId = 'user-id'; // Replace with the actual logged-in user ID
 
     useEffect(() => {
-        // Fetch all devices
-        fetch('https://api.iotlink.click/device', {
+        // Fetch all devices for the logged-in user
+        fetch(`https://api.iotlink.click/device?userId=${userId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
-        }) // Replace with domain API endpoint
+        })
             .then(response => response.json())
             .then(data => setDevices(data))
             .catch(error => console.error('Error fetching devices:', error));
-    }, []);
+    }, [userId]);
 
     const goToDeviceDetails = (id) => {
         navigate(`/devices/${id}`);
@@ -26,23 +27,6 @@ const Devices = () => {
     if (devices.length === 0) {
         return <p>Loading devices...</p>;
     }
-
-/*
-    return (
-        <div>
-            <h1>Devices</h1>
-            <ul>
-                {devices.map(device => (
-                    <li key={device.id}>
-                        <button onClick={() => goToDeviceDetails(device.id)}>
-                            {device.deviceName}
-                        </button>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-*/
 
     return (
         <div className="devices-container">
