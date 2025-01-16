@@ -8,6 +8,13 @@ const Admin = () => {
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
+    // Additional state variables for device details
+    const [deviceLocation, setDeviceLocation] = useState('');
+    const [deviceType, setDeviceType] = useState('');
+    const [roomTemperature, setRoomTemperature] = useState('');
+    const [humidity, setHumidity] = useState('');
+    const [lightStatus, setLightStatus] = useState('');
+
     // Helper function to validate inputs
     const validateInput = (fields) => {
         for (const field of fields) {
@@ -21,7 +28,12 @@ const Admin = () => {
 
     // Add Device
     const addDevice = async () => {
-        if (!validateInput([{ name: 'Device Name', value: deviceName }])) return;
+        if (!validateInput([
+            { name: 'Device ID', value: deviceId },
+            { name: 'Device Name', value: deviceName },
+            { name: 'Location', value: deviceLocation },
+            { name: 'Device Type', value: deviceType }
+        ])) return;
 
         setLoading(true);
         try {
@@ -31,10 +43,13 @@ const Admin = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ 
-                    id: deviceId, // Assuming deviceId is required for the backend
+                    id: deviceId,
                     deviceName,
-                    location: 'Default Location', // Add default or required fields
-                    deviceType: 'Default Type'    // Add default or required fields
+                    location: deviceLocation,
+                    deviceType,
+                    roomTemperature: parseFloat(roomTemperature),
+                    humidity: parseFloat(humidity),
+                    lightStatus
                 }),
             });
             const data = await response.json();
@@ -42,6 +57,11 @@ const Admin = () => {
             setMessage(`Device added: ${JSON.stringify(data)}`);
             setDeviceName('');
             setDeviceId('');
+            setDeviceLocation('');
+            setDeviceType('');
+            setRoomTemperature('');
+            setHumidity('');
+            setLightStatus('');
         } catch (error) {
             setMessage(`Error adding device: ${error.message}`);
         } finally {
@@ -72,7 +92,7 @@ const Admin = () => {
     // Add Device to User
     const addDeviceToUser = async () => {
         if (!validateInput([{ name: 'Device ID', value: deviceId }, { name: 'User ID', value: userId }])) return;
-
+    
         setLoading(true);
         try {
             const response = await fetch('https://api.iotlink.click/user', {
@@ -80,7 +100,10 @@ const Admin = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ deviceId, userId }),
+                body: JSON.stringify({ 
+                    userId: userId, 
+                    deviceId: deviceId 
+                }),
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || 'Failed to add device to user');
@@ -97,7 +120,7 @@ const Admin = () => {
     // Delete Device from User
     const deleteDeviceFromUser = async () => {
         if (!validateInput([{ name: 'Device ID', value: deviceId }, { name: 'User ID', value: userId }])) return;
-
+    
         setLoading(true);
         try {
             const response = await fetch('https://api.iotlink.click/user', {
@@ -105,7 +128,10 @@ const Admin = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ deviceId, userId }),
+                body: JSON.stringify({ 
+                    userId: userId, 
+                    deviceId: deviceId
+                }),
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || 'Failed to delete device from user');
@@ -128,9 +154,51 @@ const Admin = () => {
                 <h2>Add Device</h2>
                 <input
                     type="text"
+                    placeholder="Device ID"
+                    value={deviceId}
+                    onChange={(e) => setDeviceId(e.target.value)}
+                    disabled={loading}
+                />
+                <input
+                    type="text"
                     placeholder="Device Name"
                     value={deviceName}
                     onChange={(e) => setDeviceName(e.target.value)}
+                    disabled={loading}
+                />
+                <input
+                    type="text"
+                    placeholder="Location"
+                    value={deviceLocation}
+                    onChange={(e) => setDeviceLocation(e.target.value)}
+                    disabled={loading}
+                />
+                <input
+                    type="text"
+                    placeholder="Device Type"
+                    value={deviceType}
+                    onChange={(e) => setDeviceType(e.target.value)}
+                    disabled={loading}
+                />
+                <input
+                    type="number"
+                    placeholder="Room Temperature"
+                    value={roomTemperature}
+                    onChange={(e) => setRoomTemperature(e.target.value)}
+                    disabled={loading}
+                />
+                <input
+                    type="number"
+                    placeholder="Humidity"
+                    value={humidity}
+                    onChange={(e) => setHumidity(e.target.value)}
+                    disabled={loading}
+                />
+                <input
+                    type="text"
+                    placeholder="Light Status"
+                    value={lightStatus}
+                    onChange={(e) => setLightStatus(e.target.value)}
                     disabled={loading}
                 />
                 <button onClick={addDevice} disabled={loading}>
