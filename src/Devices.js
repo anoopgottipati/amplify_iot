@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Devices.css';
 
-const Devices = () => {
+const Devices = ({ user }) => {
     const [devices, setDevices] = useState([]);
     const navigate = useNavigate();
-    const userId = 'user-id'; // Replace with the actual logged-in user ID
+    
+    const userId = user?.attributes?.sub; 
 
     useEffect(() => {
         // Fetch all devices for the logged-in user
@@ -16,7 +17,13 @@ const Devices = () => {
             },
         })
             .then(response => response.json())
-            .then(data => setDevices(data))
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setDevices(data);
+                } else {
+                    console.error('Unexpected data format', data);
+                }
+            })
             .catch(error => console.error('Error fetching devices:', error));
     }, [userId]);
 
