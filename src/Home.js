@@ -1,20 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
+import { Auth } from 'aws-amplify';
+
 
 const Home = ({ signOut, user }) => {
-    const email = user.attributes?.email;
-    const emailUsername = email?.split('@')[0]; // Extract username from email
-
+    const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
-    const goToDevices = () => {
-        console.log("Navigating to devices");
-        navigate('/devices');
-    };
+    const emailUsername = user?.attributes?.email?.split('@')[0] || user?.email?.split('@')[0];
 
-    const goToAdmin = () => {
-        navigate('/admin');
-    };
+    useEffect(() => {
+        const checkAdmin = async () => {
+            try {
+                const session = await Auth.currentSession();
+                const idToken = session.getIdToken();
+                const groups = idToken.payload['cognito:groups'];
+
+                if (groups && groups.includes('admin')) {
+                    setIsAdmin(true);
+                }
+            } catch (error) {
+                console.error('Error checking admin group:', error);
+            }
+        };
+
+        checkAdmin();
+    }, []);
+
+
+
+    const goToDevices = () => {navigate('/devices');};
+
+    const goToAdmin = () => {navigate('/admin');};
 
 
 

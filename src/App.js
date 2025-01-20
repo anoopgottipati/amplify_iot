@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Amplify } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import awsconfig from './aws-config';
 import '@aws-amplify/ui-react/styles.css';
@@ -11,35 +11,32 @@ import { useNavigate } from 'react-router-dom';
 Amplify.configure(awsconfig);
 
 function App({ signOut, user }) {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const [isAdmin, setIsAdmin] = useState(false);
 
-  useEffect(() => {
-    if (user && window.location.pathname === '/') {
-      navigate('/home');
-    }
+    useEffect(() => {
+      const checkAdmin = async () => {
+          try {
+              const session = await Auth.currentSession();
+              const idToken = session.getIdToken();
+              const groups = idToken.payload['cognito:groups'];
+
+              if (groups && groups.includes('admin')) {
+                  setIsAdmin(true);
+              }
+          } catch (error) {
+              console.error('Error checking admin group:', error);
+          }
+      };
+
+      checkAdmin();
+
+      if (user && window.location.pathname === '/') {
+          navigate('/home');
+      }
   }, [user, navigate]);
 
-  return (
-    <AppRoutes signOut={signOut} user={user} />
-  );
+    return <AppRoutes signOut={signOut} user={user} isAdmin={isAdmin} />;
 }
 
 export default withAuthenticator(App);
-
-
-
-/*
-
-// Main App component
-function App({ signOut, user }) {
-  const email = user.attributes?.email;
-  const emailUsername = email?.split('@')[0];
-  return (
-    <>
-      <h1>Hello, {emailUsername}</h1>
-      <button onClick={signOut}>Sign out</button>
-    </>
-  );
-}
-
-*/
