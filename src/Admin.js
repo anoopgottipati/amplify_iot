@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Admin.css';
+import { Auth } from 'aws-amplify';
 
 const Admin = () => {
     const [deviceName, setDeviceName] = useState('');
@@ -37,8 +38,22 @@ const Admin = () => {
 
         setLoading(true);
         try {
+            // Check if the user is authenticated
+            const user = await Auth.currentAuthenticatedUser();
+            if (!user) {
+                throw new Error('User is not authenticated');
+            }
+
+            // Get the current session and the ID token
+            const session = await Auth.currentSession();
+            const token = session.getIdToken().getJwtToken();
+            
             const response = await fetch('https://api.iotlink.click/device', {
                 method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify({ 
                     id: deviceId,
                     deviceName,
