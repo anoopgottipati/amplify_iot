@@ -15,26 +15,26 @@ function App({ signOut, user }) {
     const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-      const checkAdmin = async () => {
-          try {
-              const session = await Auth.currentSession();
-              const idToken = session.getIdToken();
-              const groups = idToken.payload['cognito:groups'];
+        const checkAdmin = async () => {
+            try {
+                const session = await Auth.currentSession();
+                const idToken = session.getIdToken();
+                const groups = idToken.payload['cognito:groups'];
 
-              if (groups && groups.includes('admin')) {
-                  setIsAdmin(true);
-              }
-          } catch (error) {
-              console.error('Error checking admin group:', error);
-          }
-      };
+                if (groups && groups.includes('admin')) {
+                    setIsAdmin(true);
+                }
+            } catch (error) {
+                console.error('Error checking admin group:', error);
+            }
+        };
 
-      checkAdmin();
+        checkAdmin();
 
-      if (user && window.location.pathname === '/') {
-          navigate('/home');
-      }
-  }, [user, navigate]);
+        if (user && window.location.pathname === '/') {
+            navigate('/home');
+        }
+    }, [user, navigate]);
 
     return <AppRoutes signOut={signOut} user={user} isAdmin={isAdmin} />;
 }

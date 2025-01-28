@@ -29,13 +29,14 @@ const Admin = () => {
 
     // Add Device
     const addDevice = async () => {
+        // Validate required fields
         if (!validateInput([
             { name: 'Device ID', value: deviceId },
             { name: 'Device Name', value: deviceName },
             { name: 'Location', value: deviceLocation },
             { name: 'Device Type', value: deviceType }
         ])) return;
-
+    
         setLoading(true);
         try {
             // Check if the user is authenticated
@@ -43,44 +44,57 @@ const Admin = () => {
             if (!user) {
                 throw new Error('User is not authenticated');
             }
-
+    
             // Get the current session and the ID token
             const session = await Auth.currentSession();
             const token = session.getIdToken().getJwtToken();
-            
+    
+            // Prepare the payload for the API
+            const payload = {
+                id: deviceId,
+                deviceName,
+                location: deviceLocation,
+                deviceType,
+                roomTemperature: parseFloat(roomTemperature) || null, // Ensure it's a number or null
+                humidity: parseFloat(humidity) || null, // Ensure it's a number or null
+                lightStatus: lightStatus || 'OFF' // Default to 'OFF' if not provided
+            };
+    
+            // Call the API to add the device
             const response = await fetch('https://api.iotlink.click/device', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ 
-                    id: deviceId,
-                    deviceName,
-                    location: deviceLocation,
-                    deviceType,
-                    roomTemperature: parseFloat(roomTemperature),
-                    humidity: parseFloat(humidity),
-                    lightStatus
-                }),
+                body: JSON.stringify(payload),
             });
+    
             const data = await response.json();
-            if (!response.ok) throw new Error(data.message || 'Failed to add device');
+    
+            // Handle API errors
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to add device');
+            }
+    
+            // Clear form fields and display success message
             setMessage(`Device added: ${JSON.stringify(data)}`);
-            setDeviceName('');
             setDeviceId('');
+            setDeviceName('');
             setDeviceLocation('');
             setDeviceType('');
             setRoomTemperature('');
             setHumidity('');
             setLightStatus('');
         } catch (error) {
+            // Handle errors
             setMessage(`Error adding device: ${error.message}`);
         } finally {
             setLoading(false);
         }
     };
 
+    
     // Delete Device
     const deleteDevice = async () => {
         if (!validateInput([{ name: 'Device ID', value: deviceId }])) return;
